@@ -3,35 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor 3D con Efectos Neón</title>
+    <title>Visor 3D Ultra Efectos</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-    
     <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer-effects/dist/model-viewer-effects.min.js"></script>
     
     <style>
-        body { margin: 0; background-color: #111; } /* Fondo oscuro para resaltar el neón */
-        model-viewer { width: 100vw; height: 100vh; }
+        body { 
+            margin: 0; 
+            background-color: #000000; /* Fondo negro puro para máximo contraste */
+            font-family: Arial, sans-serif;
+        }
+        model-viewer { 
+            width: 100vw; 
+            height: 100vh;
+            --poster-color: transparent;
+        }
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <model-viewer 
-        src="ferrarriparapista.glb" 
-        alt="Modelo con efectos"
-        camera-controls 
-        ar 
-        ar-modes="webxr scene-viewer quick-look" 
-        shadow-intensity="1"
-        environment-image="neutral" 
-        exposure="1">
+    <div class="controls">Modo: Cyberpunk Neon</div>
 
-        <effect-composer>
-            <bloom-effect strength="3" radius="0.8" threshold="0.3"></bloom-effect>
+    <model-viewer 
+        src="ferrariparapista.glb" 
+        alt="Modelo 3D"
+        camera-controls 
+        auto-rotate
+        rotation-per-second="30deg"
+        shadow-intensity="2"
+        environment-image="neutral" 
+        exposure="1.5" 
+        tone-mapping="aces">
+
+        <effect-composer render-mode="quality">
             
-            </effect-composer>
+            <bloom-effect 
+                strength="2.5" 
+                radius="0.8" 
+                threshold="0">
+            </bloom-effect>
+
+            <outline-effect 
+                color="#ffffff" 
+                strength="4">
+            </outline-effect>
+
+            <color-grade-effect 
+                contrast="1.2" 
+                saturation="1.5">
+            </color-grade-effect>
+
+        </effect-composer>
 
     </model-viewer>
+
+    <script>
+        const viewer = document.querySelector("model-viewer");
+        viewer.addEventListener('load', () => {
+            console.log("Modelo cargado con éxito");
+        });
+        viewer.addEventListener('error', (error) => {
+            console.log("Error cargando el modelo:", error);
+            alert("No encuentro el archivo .glb. Verifica el nombre.");
+        });
+    </script>
 
 </body>
 </html>
